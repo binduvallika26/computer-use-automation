@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "computer-use-automation"
+version = "0.1.0"
+description = "Discover UI capabilities with an LLM; replay without one"
+requires-python = ">=3.11"
+dependencies = ["playwright>=1.51,<2", "pydantic>=2.10,<3", "openai>=1.66,<4"]
+
+[project.optional-dependencies]
+test = ["pytest>=8,<10"]
+
+[project.scripts]
+hands = "hands.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["hands*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

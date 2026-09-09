@@ -1,0 +1,21 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>Core banking</title>
+<style>body{font:16px system-ui;color:#183d44;margin:32px}h2{font-size:26px}label{display:block;margin:20px 0 8px}input,select{padding:12px;border:1px solid #9bb6bd;border-radius:6px;font:inherit}button{padding:12px 22px;border:0;border-radius:6px;background:#126b68;color:white;font:inherit;margin:12px 10px 12px 0;cursor:pointer}table{border-collapse:collapse;width:100%;margin:24px 0}td,th{padding:18px;text-align:left;border-bottom:1px solid #dce6e8}[role=alert]{color:#a32727;padding:16px;background:#fff0ed}aside{padding:16px;background:#eaf3f3;margin-top:24px}summary{cursor:pointer}p{line-height:1.6}</style>
+<div id="app"></div>
+<script>
+// Synthetic state stays in this browser. No fetch/XHR/business endpoints.
+const app=document.getElementById('app'); let mode='normal', member='';
+function home(){app.innerHTML=`<h2>Find a member</h2><label for="member">Member ID</label><input id="member" autocomplete="off"><br><button onclick="search()">Search members</button><div id="result"></div><aside><details><summary>Sandbox fault controls</summary><label for="scenario">Scenario</label><select id="scenario" onchange="mode=this.value"><option value="normal">Normal</option><option value="slow">Slow load</option><option value="expired">Session expired</option><option value="denied">Permission denied</option><option value="notice">Known notice</option><option value="dialog">Unexpected dialog</option><option value="error">App error</option></select></details><p>Example IDs: 10001, 10002. Any other five-digit ID returns not found.</p></aside>`}
+function search(){member=document.getElementById('member').value; const r=document.getElementById('result');
+if(!/^\d{5}$/.test(member)){r.innerHTML='<p role="alert">Invalid member ID</p>';return}
+if(mode==='expired'){r.innerHTML='<p role="alert">Session expired</p><button onclick="mode=\'normal\';search()">Restore demo session</button>';return}
+if(mode==='denied'){r.innerHTML='<p role="alert">Permission denied</p>';return}
+if(mode==='error'){r.innerHTML='<p role="alert">Application unavailable</p>';return}
+if(mode==='dialog'){confirm('Unexpected confirmation');return}
+if(mode==='slow'){r.innerHTML='<p role="status">Loading</p>';setTimeout(results,700);return}
+results()}
+function results(){const r=document.getElementById('result');if(!['10001','10002'].includes(member)){r.innerHTML='<p role="status">Member not found</p>';return}
+r.innerHTML='<table><tr><th>Member</th><th>Action</th></tr><tr><td>Demo member</td><td><button onclick="detail()">View member</button></td></tr></table>'}
+function detail(){app.innerHTML='<h2>Member overview</h2><table><tr><td>Profile</td><td>Demo member</td></tr></table><button onclick="savings()">Savings account</button>';if(mode==='notice')app.innerHTML+='<aside><p>Maintenance notice</p><button onclick="this.parentElement.remove()">Dismiss notice</button></aside>'}
+function savings(){app.innerHTML='<h2>Savings account details</h2><table><tr><th>Account type</th><td>Savings</td></tr><tr><th>Available balance</th><td aria-label="Available balance">'+(member==='10001'?'$1,250.50':'$8,040.00')+'</td></tr></table><p role="status">Balance verified</p><button onclick="home()">Back to search</button><button onclick="alert(\'This is blocked by automation policy\')">Close account</button>'}
+home();
+</script></html>

@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.0",
+  "name": "read-savings-balance",
+  "version": "1.0.0",
+  "vendor": "harbor-sandbox",
+  "app_version": "1",
+  "entry_path": "/",
+  "inputs": {
+    "member_id": {
+      "type": "string",
+      "sensitive": true,
+      "pattern": "\\d{5}"
+    }
+  },
+  "outputs": {
+    "balance": {
+      "type": "decimal",
+      "sensitive": true,
+      "pattern": null
+    }
+  },
+  "steps": [
+    {
+      "action": "fill",
+      "target": {
+        "strategy": "label",
+        "name": "Member ID",
+        "role": null,
+        "frame": "Core banking"
+      },
+      "input_ref": "member_id",
+      "output_ref": null
+    },
+    {
+      "action": "click",
+      "target": {
+        "strategy": "role",
+        "name": "Search members",
+        "role": "button",
+        "frame": "Core banking"
+      },
+      "input_ref": null,
+      "output_ref": null
+    },
+    {
+      "action": "click",
+      "target": {
+        "strategy": "role",
+        "name": "View member",
+        "role": "button",
+        "frame": "Core banking"
+      },
+      "input_ref": null,
+      "output_ref": null
+    },
+    {
+      "action": "click",
+      "target": {
+        "strategy": "role",
+        "name": "Savings account",
+        "role": "button",
+        "frame": "Core banking"
+      },
+      "input_ref": null,
+      "output_ref": null
+    },
+    {
+      "action": "read",
+      "target": {
+        "strategy": "label",
+        "name": "Available balance",
+        "role": null,
+        "frame": "Core banking"
+      },
+      "input_ref": null,
+      "output_ref": "balance"
+    }
+  ],
+  "success": {
+    "strategy": "text",
+    "name": "Balance verified",
+    "role": null,
+    "frame": "Core banking"
+  }
+}

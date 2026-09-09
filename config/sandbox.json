@@ -1,0 +1,236 @@
+{
+  "origin": "http://127.0.0.1:8765",
+  "paths": [
+    "/",
+    "/core.html",
+    "/favicon.ico"
+  ],
+  "vendor": "harbor-sandbox",
+  "app_version": "1",
+  "controls": [
+    {
+      "target": {
+        "strategy": "label",
+        "name": "Member ID",
+        "role": null,
+        "frame": "Core banking"
+      },
+      "actions": [
+        "fill"
+      ],
+      "risk": "safe"
+    },
+    {
+      "target": {
+        "strategy": "role",
+        "name": "Search members",
+        "role": "button",
+        "frame": "Core banking"
+      },
+      "actions": [
+        "click"
+      ],
+      "risk": "safe"
+    },
+    {
+      "target": {
+        "strategy": "role",
+        "name": "View member",
+        "role": "button",
+        "frame": "Core banking"
+      },
+      "actions": [
+        "click"
+      ],
+      "risk": "safe"
+    },
+    {
+      "target": {
+        "strategy": "role",
+        "name": "Savings account",
+        "role": "button",
+        "frame": "Core banking"
+      },
+      "actions": [
+        "click"
+      ],
+      "risk": "safe"
+    },
+    {
+      "target": {
+        "strategy": "role",
+        "name": "Dismiss notice",
+        "role": "button",
+        "frame": "Core banking"
+      },
+      "actions": [
+        "click"
+      ],
+      "risk": "safe"
+    },
+    {
+      "target": {
+        "strategy": "label",
+        "name": "Available balance",
+        "role": null,
+        "frame": "Core banking"
+      },
+      "actions": [
+        "read"
+      ],
+      "risk": "safe"
+    },
+    {
+      "target": {
+        "strategy": "text",
+        "name": "Balance verified",
+        "role": null,
+        "frame": "Core banking"
+      },
+      "actions": [
+        "assert"
+      ],
+      "risk": "safe"
+    },
+    {
+      "target": {
+        "strategy": "role",
+        "name": "Close account",
+        "role": "button",
+        "frame": "Core banking"
+      },
+      "actions": [
+        "click"
+      ],
+      "risk": "irreversible"
+    },
+    {
+      "target": {
+        "strategy": "role",
+        "name": "Restore demo session",
+        "role": "button",
+        "frame": "Core banking"
+      },
+      "actions": [],
+      "risk": "human_only"
+    }
+  ],
+  "conditions": [
+    {
+      "target": {
+        "strategy": "text",
+        "name": "Invalid member ID",
+        "role": null,
+        "frame": "Core banking"
+      },
+      "code": "validation_error",
+      "kind": "business",
+      "recovery": null
+    },
+    {
+      "target": {
+        "strategy": "text",
+        "name": "Member not found",
+        "role": null,
+        "frame": "Core banking"
+      },
+      "code": "not_found",
+      "kind": "business",
+      "recovery": null
+    },
+    {
+      "target": {
+        "strategy": "text",
+        "name": "Session expired",
+        "role": null,
+        "frame": "Core banking"
+      },
+      "code": "session_expired",
+      "kind": "hard",
+      "recovery": null
+    },
+    {
+      "target": {
+        "strategy": "text",
+        "name": "Permission denied",
+        "role": null,
+        "frame": "Core banking"
+      },
+      "code": "permission_denied",
+      "kind": "hard",
+      "recovery": null
+    },
+    {
+      "target": {
+        "strategy": "text",
+        "name": "Application unavailable",
+        "role": null,
+        "frame": "Core banking"
+      },
+      "code": "app_unavailable",
+      "kind": "hard",
+      "recovery": null
+    },
+    {
+      "target": {
+        "strategy": "text",
+        "name": "Loading",
+        "role": null,
+        "frame": "Core banking"
+      },
+      "code": "slow_load",
+      "kind": "recoverable",
+      "recovery": null
+    },
+    {
+      "target": {
+        "strategy": "text",
+        "name": "Maintenance notice",
+        "role": null,
+        "frame": "Core banking"
+      },
+      "code": "known_notice",
+      "kind": "recoverable",
+      "recovery": {
+        "action": "click",
+        "target": {
+          "strategy": "role",
+          "name": "Dismiss notice",
+          "role": "button",
+          "frame": "Core banking"
+        },
+        "input_ref": null,
+        "output_ref": null
+      }
+    }
+  ],
+  "success": {
+    "strategy": "text",
+    "name": "Balance verified",
+    "role": null,
+    "frame": "Core banking"
+  },
+  "inputs": {
+    "member_id": {
+      "type": "string",
+      "sensitive": true,
+      "pattern": "\\d{5}"
+    }
+  },
+  "outputs": {
+    "balance": {
+      "type": "decimal",
+      "sensitive": true,
+      "pattern": null
+    }
+  },
+  "max_steps": 20,
+  "timeout_seconds": 120,
+  "wait_ms": 3000,
+  "actions": [
+    "click",
+    "fill",
+    "read",
+    "assert"
+  ]
+}

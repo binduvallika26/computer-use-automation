@@ -1,0 +1,8 @@
+{"time": "2026-09-09T16:37:46.308109+00:00", "event": "run_started", "provider": "none"}
+{"time": "2026-09-09T16:37:46.520245+00:00", "event": "action", "step": 0, "action": "fill", "control": 0}
+{"time": "2026-09-09T16:37:46.609979+00:00", "event": "action", "step": 1, "action": "click", "control": 1}
+{"time": "2026-09-09T16:37:46.663482+00:00", "event": "recovery", "code": "slow_load"}
+{"time": "2026-09-09T16:37:47.525272+00:00", "event": "action", "step": 2, "action": "click", "control": 2}
+{"time": "2026-09-09T16:37:47.604221+00:00", "event": "action", "step": 3, "action": "click", "control": 3}
+{"time": "2026-09-09T16:37:47.683495+00:00", "event": "action", "step": 4, "action": "read", "control": 5}
+{"time": "2026-09-09T16:37:47.724390+00:00", "event": "run_finished", "status": "success", "code": "completed"}

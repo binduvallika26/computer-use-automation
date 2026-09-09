@@ -1,0 +1,9 @@
+{"time": "2026-09-09T16:37:50.122117+00:00", "event": "run_started", "provider": "none"}
+{"time": "2026-09-09T16:37:50.332182+00:00", "event": "action", "step": 0, "action": "fill", "control": 0}
+{"time": "2026-09-09T16:37:50.410806+00:00", "event": "action", "step": 1, "action": "click", "control": 1}
+{"time": "2026-09-09T16:37:50.461160+00:00", "event": "intervention_requested", "step": 2, "code": "permission_denied", "owner": "human"}
+{"time": "2026-09-09T16:37:50.551727+00:00", "event": "intervention_unavailable", "code": "requires_headed_operator"}
+{"time": "2026-09-09T16:37:50.551727+00:00", "event": "stopped", "step": 2, "code": "permission_denied"}
+{"time": "2026-09-09T16:37:50.706911+00:00", "event": "intervention_requested", "step": 2, "code": "permission_denied", "owner": "human"}
+{"time": "2026-09-09T16:37:50.793047+00:00", "event": "intervention_unavailable", "code": "requires_headed_operator"}
+{"time": "2026-09-09T16:37:50.794092+00:00", "event": "run_finished", "status": "failure", "code": "permission_denied"}

@@ -1,0 +1,8 @@
+{
+  "status": "business_outcome",
+  "code": "not_found",
+  "step": 2,
+  "expected": "unique permitted control and valid checkpoint",
+  "observed": "not_found",
+  "run_id": "7326b83e00d447168b1073c610dcd500"
+}

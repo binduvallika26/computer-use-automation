@@ -1,0 +1,5 @@
+{"time": "2026-09-09T16:37:44.968239+00:00", "event": "run_started", "provider": "none"}
+{"time": "2026-09-09T16:37:45.190861+00:00", "event": "action", "step": 0, "action": "fill", "control": 0}
+{"time": "2026-09-09T16:37:45.253450+00:00", "event": "action", "step": 1, "action": "click", "control": 1}
+{"time": "2026-09-09T16:37:45.318159+00:00", "event": "stopped", "step": 2, "code": "not_found"}
+{"time": "2026-09-09T16:37:45.379750+00:00", "event": "run_finished", "status": "business_outcome", "code": "not_found"}
