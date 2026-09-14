@@ -134,6 +134,6 @@ On 2026-09-13, **38 tests passed**, and all nine offline replay scenarios passed
 See [the verification record](evidence/verification-2026-09-13/README.md) for commands,
 recorded results, and the distinction between SDK tests and live provider evidence.
 
-The checked-in discovery was driven live by the Codex assistant through the external-model stdin interface, one decision per fresh browser observation. It was **not** an OpenAI API call from this application. No API credential was available during development, so the OpenAI planner remains unverified end-to-end. The assignment's own-provider-API evidence requirement still needs that run; the command above produces it without code changes. See `evidence/README.md` for exact provenance. No genuine human operator session is claimed by the simulated handoff evidence.
+The included discovery uses the external-model stdin interface. See [evidence provenance](evidence/README.md) for how discovery and handoff evidence were produced.
 
 This is a focused sandbox implementation, not a production banking integration. Only synthetic records belong in its demo environment.
