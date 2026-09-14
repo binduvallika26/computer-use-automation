@@ -29,6 +29,36 @@ Open <http://127.0.0.1:8765> to inspect the synthetic UI.
 
 ## Demo: discover, then replay
 
+For the complete demo with automatic local server setup, copy `.env.example` to
+`.env`, fill in your own `OPENAI_API_KEY`, then run:
+
+```bash
+python -m scripts.run_demo --evidence evidence/api-demo
+```
+
+This performs a real provider discovery, saves its capability, and verifies nine
+replays with different inputs and runtime conditions. It exits nonzero on a
+verification failure. A manifest records provider provenance and each result;
+input values and balances are checked in memory and omitted from saved evidence.
+Existing environment variables take precedence over `.env`. Only the two named
+provider settings are loaded, and replay never reads `.env`.
+
+The default model is `gpt-5.4-mini`, selected for this small structured UI workflow.
+Override it with `OPENAI_MODEL` or `--model` when needed. A personal API key and
+available API credit are still required; selecting a model does not create access.
+
+To exercise the browser implementation without credentials:
+
+```bash
+python -m scripts.run_demo --offline
+```
+
+To include a real person restoring the same live browser, run
+`python -m scripts.run_demo --offline --manual-handoff` from an interactive terminal.
+At the expired-session prompt, restore the demo session in Chromium and type
+`resume`. The default offline run labels its automated test operator as simulated.
+You never submit API keys or tokens; the public deliverables are code and redacted evidence.
+
 Configure `OPENAI_API_KEY` in your local environment and `OPENAI_MODEL` to a Responses API model available to your account that supports structured outputs. Do not put credentials in a command, artifact, or checked-in file. [OpenAI's structured-output documentation](https://developers.openai.com/api/docs/guides/structured-outputs) describes the provider mechanism.
 
 In a second terminal:
@@ -79,6 +109,11 @@ python -m pytest -q
 
 Tests launch real Chromium against an ephemeral local server. They cover parameterized outputs, business outcomes, known recovery, hard errors, ambiguity, false model completion, blocked actions/domains, redaction, ownership, and same-session resumption.
 
+Regression tests also verify cleanup after browser startup failure, capture across
+full navigation, browser event processing while terminal input waits, and the real
+OpenAI SDK against an HTTP test double. HTTP test doubles do not establish live
+provider access. If Chromium is missing, run `python -m playwright install chromium`.
+
 ## Repository map
 
 | Path | Responsibility |
@@ -94,6 +129,10 @@ Tests launch real Chromium against an ephemeral local server. They cover paramet
 | `REPORT.md` | Design decisions, trade-offs and limits |
 
 ## Verification status
+
+On 2026-09-13, **38 tests passed**, and all nine offline replay scenarios passed.
+See [the verification record](evidence/verification-2026-09-13/README.md) for commands,
+recorded results, and the distinction between SDK tests and live provider evidence.
 
 The checked-in discovery was driven live by the Codex assistant through the external-model stdin interface, one decision per fresh browser observation. It was **not** an OpenAI API call from this application. No API credential was available during development, so the OpenAI planner remains unverified end-to-end. The assignment's own-provider-API evidence requirement still needs that run; the command above produces it without code changes. See `evidence/README.md` for exact provenance. No genuine human operator session is claimed by the simulated handoff evidence.
 

@@ -1,0 +1,8 @@
+{
+  "status": "failure",
+  "code": "unexpected_dialog",
+  "step": 1,
+  "expected": "unique permitted control and valid checkpoint",
+  "observed": "unexpected_dialog",
+  "run_id": "9587a03d087949609abc775d3881333a"
+}

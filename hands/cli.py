@@ -25,11 +25,18 @@ def main():
         if verb == "discover":
             p.add_argument("--goal", required=True)
             p.add_argument("--name", default="read-savings-balance")
-            p.add_argument("--model", default=os.getenv("OPENAI_MODEL"))
+            p.add_argument("--model")
+            p.add_argument("--env-file", default=".env")
             p.add_argument("--planner", choices=["openai", "stdio"], default="openai")
         else:
             p.add_argument("--artifact", required=True)
     args = parser.parse_args()
+    if args.command == "discover" and args.planner == "openai":
+        from .settings import DEFAULT_MODEL, load_provider_env
+        load_provider_env(args.env_file)
+        args.model = args.model or os.getenv("OPENAI_MODEL") or DEFAULT_MODEL
+    if getattr(args, "operator", False) and not args.headed:
+        parser.error("--operator requires --headed so the person can use the live session.")
     if args.command == "serve":
         import threading
         with serve():

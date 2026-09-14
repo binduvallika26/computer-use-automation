@@ -1,0 +1,7 @@
+{"time": "2026-09-13T15:38:50.612901+00:00", "event": "run_started", "provider": "none"}
+{"time": "2026-09-13T15:38:50.968101+00:00", "event": "action", "step": 0, "action": "fill", "control": 0}
+{"time": "2026-09-13T15:38:51.077976+00:00", "event": "action", "step": 1, "action": "click", "control": 1}
+{"time": "2026-09-13T15:38:51.211100+00:00", "event": "action", "step": 2, "action": "click", "control": 2}
+{"time": "2026-09-13T15:38:51.315552+00:00", "event": "action", "step": 3, "action": "click", "control": 3}
+{"time": "2026-09-13T15:38:51.419712+00:00", "event": "action", "step": 4, "action": "read", "control": 5}
+{"time": "2026-09-13T15:38:51.486079+00:00", "event": "run_finished", "status": "success", "code": "completed"}

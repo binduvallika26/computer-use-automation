@@ -1,0 +1,80 @@
+{
+  "discovery": "existing_external_stdio",
+  "api_discovery_verified": false,
+  "replays": [
+    {
+      "scenario": "normal",
+      "run_id": "fbb608e4f4fa4da4bd32c4f24d6cb6e2",
+      "status": "success",
+      "code": "completed",
+      "verified": true,
+      "operator": "none"
+    },
+    {
+      "scenario": "normal",
+      "run_id": "2fc0f3b435884259bb1f59eefe3912f9",
+      "status": "business_outcome",
+      "code": "not_found",
+      "verified": true,
+      "operator": "none"
+    },
+    {
+      "scenario": "normal",
+      "run_id": "58df993fba474916af18dce809cf8f90",
+      "status": "business_outcome",
+      "code": "invalid_input",
+      "verified": true,
+      "operator": "none"
+    },
+    {
+      "scenario": "slow",
+      "run_id": "4c35c3603bc54c8586680bb3f5391b63",
+      "status": "success",
+      "code": "completed",
+      "verified": true,
+      "operator": "none"
+    },
+    {
+      "scenario": "notice",
+      "run_id": "5120987b52794576a0c05bc6be5e8576",
+      "status": "success",
+      "code": "completed",
+      "verified": true,
+      "operator": "none"
+    },
+    {
+      "scenario": "denied",
+      "run_id": "310af924a5aa4cd0ac614ac05e1be46b",
+      "status": "failure",
+      "code": "permission_denied",
+      "verified": true,
+      "operator": "none"
+    },
+    {
+      "scenario": "error",
+      "run_id": "79f0e3432f424f1dbe36f90e8b47566e",
+      "status": "failure",
+      "code": "app_unavailable",
+      "verified": true,
+      "operator": "none"
+    },
+    {
+      "scenario": "dialog",
+      "run_id": "9587a03d087949609abc775d3881333a",
+      "status": "failure",
+      "code": "unexpected_dialog",
+      "verified": true,
+      "operator": "none"
+    },
+    {
+      "scenario": "expired",
+      "run_id": "4e31c23be57549cf99f3ddcd1b0fcf14",
+      "status": "success",
+      "code": "completed",
+      "verified": true,
+      "operator": "simulated"
+    }
+  ],
+  "artifact": "evidence/discovery/c40babdbd7a04143b68bc8df5580fa3d/capability.json",
+  "replays_verified": true
+}

@@ -7,12 +7,27 @@ from .surface import SurfaceError
 
 class OpenAIPlanner:
     provider = "openai"
-    def __init__(self, model):
+    def __init__(self, model, client=None):
         from openai import OpenAI
-        self.client = OpenAI(timeout=30, max_retries=1)
+        self.client = client or OpenAI(timeout=30, max_retries=1)
         self.model = model
 
     def decide(self, goal, observation, history, policy, evidence):
+        from openai import APIConnectionError, APIStatusError, APITimeoutError
+        try:
+            return self._decide(goal, observation, history, policy, evidence)
+        except APITimeoutError:
+            raise SurfaceError("model_timeout") from None
+        except APIConnectionError:
+            raise SurfaceError("model_connection_error") from None
+        except APIStatusError as exc:
+            code = {401: "model_authentication_failed", 403: "model_permission_denied",
+                    429: "model_rate_limited"}.get(exc.status_code, "model_api_error")
+            raise SurfaceError(code) from None
+        except ValueError:
+            raise SurfaceError("model_invalid_response") from None
+
+    def _decide(self, goal, observation, history, policy, evidence):
         response = self.client.responses.parse(
             model=self.model, store=False,
             input=[{"role": "system", "content":
@@ -54,7 +69,11 @@ def discover(goal, name, inputs, planner, surface, policy, evidence, operator):
     index = 0
     evidence.event("discovery_started", provider=planner.provider)
     try:
-        validate_inputs(policy.inputs, inputs)
+        try:
+            validate_inputs(policy.inputs, inputs)
+        except ValueError:
+            from .engine import Outcome
+            raise Outcome("invalid_input", True) from None
         surface.open("/")
         for index in range(policy.max_steps):
             try:

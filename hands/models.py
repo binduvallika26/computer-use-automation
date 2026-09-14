@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import re
+from decimal import Decimal, InvalidOperation
 from typing import Literal
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
@@ -88,7 +89,7 @@ class Result(Model):
 
 
 def validate_inputs(spec: dict[str, Parameter], values: dict):
-    if set(values) != set(spec):
+    if not isinstance(values, dict) or set(values) != set(spec):
         raise ValueError("input names do not match contract")
     for name, p in spec.items():
         value = values[name]
@@ -97,5 +98,11 @@ def validate_inputs(spec: dict[str, Parameter], values: dict):
                 raise ValueError("expected integer")
         elif not isinstance(value, str) or len(value) > 256:
             raise ValueError("expected bounded string")
+        if p.type == "decimal":
+            try:
+                if not Decimal(value).is_finite():
+                    raise ValueError("expected finite decimal")
+            except InvalidOperation:
+                raise ValueError("expected decimal") from None
         if p.pattern and not re.fullmatch(p.pattern, str(value)):
             raise ValueError("input pattern mismatch")

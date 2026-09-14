@@ -1,0 +1,8 @@
+{
+  "status": "failure",
+  "code": "app_unavailable",
+  "step": 2,
+  "expected": "unique permitted control and valid checkpoint",
+  "observed": "app_unavailable",
+  "run_id": "79f0e3432f424f1dbe36f90e8b47566e"
+}

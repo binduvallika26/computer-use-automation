@@ -1,5 +1,7 @@
 """UI-only adapter: no target business API, DOM mutations or JS task execution."""
 from typing import Protocol
+import json
+from contextlib import suppress
 from decimal import Decimal, InvalidOperation
 from playwright.sync_api import sync_playwright, TimeoutError as PlaywrightTimeout
 from .models import Target, Step
@@ -11,10 +13,14 @@ class SurfaceError(Exception):
 
 
 class Surface(Protocol):
+    policy: Policy
+    owner: str
     def observe(self) -> dict: ...
     def act(self, step: Step, inputs: dict): ...
     def visible(self, target: Target) -> bool: ...
     def open(self, path: str): ...
+    def check(self): ...
+    def wait_hidden(self, target: Target): ...
 
 
 class BrowserSurface:
@@ -28,19 +34,41 @@ class BrowserSurface:
 
     def __enter__(self):
         self.pw = sync_playwright().start()
+        try:
+            return self._start_browser()
+        except BaseException:
+            self.__exit__()
+            raise
+
+    def _start_browser(self):
         self.browser = self.pw.chromium.launch(headless=not self.headed)
         self.context = self.browser.new_context(service_workers="block", accept_downloads=False)
         self.context.route("**/*", self._route)
         self.context.route_web_socket("**/*", lambda ws: ws.close())
         self.context.on("page", self._new_page)
+        self.context.expose_binding("__handsHumanEvent", self._capture_event)
+        self._capture_script = """(() => {
+          if (window.__handsListeners) return;
+          window.__handsListeners = true;
+          const labels = LABELS;
+          for (const kind of ['click','input']) document.addEventListener(kind, e => {
+            const el = e.target;
+            const name = el.getAttribute('aria-label') || el.labels?.[0]?.textContent || el.textContent;
+            window.__handsHumanEvent({action:kind, control:labels.indexOf((name || '').trim())});
+          }, true);
+        })();""".replace("LABELS", json.dumps([c.target.name for c in self.policy.controls]))
+        self.context.add_init_script(script=self._capture_script)
         self.page = self.context.new_page()
         self.page.set_default_timeout(self.policy.wait_ms)
         return self
 
     def __exit__(self, *_):
-        self.context.close()
-        self.browser.close()
-        self.pw.stop()
+        for name, method in (("context", "close"), ("browser", "close"), ("pw", "stop")):
+            resource = getattr(self, name, None)
+            if resource is not None:
+                with suppress(Exception):
+                    getattr(resource, method)()
+                delattr(self, name)
 
     def _new_page(self, page):
         page.on("dialog", self._dialog)
@@ -71,6 +99,8 @@ class BrowserSurface:
         self.policy.check_url(self.page.url)
 
     def open(self, path):
+        if self.owner != "automation":
+            raise SurfaceError("human_owns_session")
         url = self.policy.origin + path
         self.policy.check_url(url)
         self.page.goto(url, wait_until="domcontentloaded")
@@ -87,6 +117,12 @@ class BrowserSurface:
     def visible(self, target):
         loc = self.locator(target)
         return loc.count() == 1 and loc.is_visible()
+
+    def wait_hidden(self, target):
+        try:
+            self.locator(target).wait_for(state="hidden", timeout=self.policy.wait_ms)
+        except PlaywrightTimeout:
+            raise SurfaceError("load_timeout") from None
 
     def observe(self):
         self.check()
@@ -137,26 +173,10 @@ class BrowserSurface:
             raise SurfaceError("output_type_mismatch") from None
 
     def start_human_capture(self):
+        # Drain automation callbacks before transferring ownership.
+        self.page.wait_for_timeout(50)
         self.owner = "human"
         self.human_events.clear()
-        # Capture event kind + index in reviewed catalog, never typed values or raw labels.
-        labels = [c.target.name for c in self.policy.controls]
-        if not hasattr(self, "capture_installed"):
-            self.page.expose_binding("__handsHumanEvent", self._capture_event)
-        self.capture_installed = True
-        for frame in self.page.frames:
-            frame.evaluate("""labels => {
-              window.__handsCapture = true;
-              if (window.__handsListeners) return;
-              window.__handsListeners = true;
-              for (const kind of ['click','input']) document.addEventListener(kind, e => {
-                if (!window.__handsCapture) return;
-                const el = e.target;
-                const name = el.getAttribute('aria-label') || el.labels?.[0]?.textContent || el.textContent;
-                const index = labels.indexOf((name || '').trim());
-                window.__handsHumanEvent({action:kind, control:index});
-              }, true);
-            }""", labels)
 
     def _capture_event(self, source, event):
         # The page is untrusted, including callbacks it invokes itself.
@@ -170,7 +190,8 @@ class BrowserSurface:
         self.human_events.append({"action": action, "control": control})
 
     def stop_human_capture(self):
-        for frame in self.page.frames:
-            frame.evaluate("window.__handsCapture = false")
-        self.owner = "automation"
-        self.dialog = False
+        try:
+            self.page.wait_for_timeout(50)
+        finally:
+            self.owner = "automation"
+            self.dialog = False

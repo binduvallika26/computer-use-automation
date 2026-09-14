@@ -1,0 +1,8 @@
+{
+  "status": "business_outcome",
+  "code": "invalid_input",
+  "step": 0,
+  "expected": "unique permitted control and valid checkpoint",
+  "observed": "invalid_input",
+  "run_id": "58df993fba474916af18dce809cf8f90"
+}

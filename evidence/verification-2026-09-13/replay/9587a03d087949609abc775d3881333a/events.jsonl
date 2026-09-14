@@ -1,0 +1,7 @@
+{"time": "2026-09-13T15:39:04.353289+00:00", "event": "run_started", "provider": "none"}
+{"time": "2026-09-13T15:39:04.612196+00:00", "event": "action", "step": 0, "action": "fill", "control": 0}
+{"time": "2026-09-13T15:39:04.716640+00:00", "event": "action", "step": 1, "action": "click", "control": 1}
+{"time": "2026-09-13T15:39:04.779910+00:00", "event": "stopped", "step": 1, "code": "unexpected_dialog"}
+{"time": "2026-09-13T15:39:04.781911+00:00", "event": "intervention_requested", "step": 1, "code": "unexpected_dialog", "owner": "automation"}
+{"time": "2026-09-13T15:39:04.782913+00:00", "event": "intervention_unavailable", "code": "requires_headed_operator"}
+{"time": "2026-09-13T15:39:04.782913+00:00", "event": "run_finished", "status": "failure", "code": "unexpected_dialog"}

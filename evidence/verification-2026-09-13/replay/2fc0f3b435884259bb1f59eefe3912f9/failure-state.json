@@ -1,0 +1,106 @@
+{
+  "controls": [
+    {
+      "target": {
+        "strategy": "label",
+        "name": "Member ID",
+        "role": null,
+        "frame": "Core banking"
+      },
+      "matches": 1,
+      "visible": true,
+      "enabled": true
+    },
+    {
+      "target": {
+        "strategy": "role",
+        "name": "Search members",
+        "role": "button",
+        "frame": "Core banking"
+      },
+      "matches": 1,
+      "visible": true,
+      "enabled": true
+    },
+    {
+      "target": {
+        "strategy": "role",
+        "name": "View member",
+        "role": "button",
+        "frame": "Core banking"
+      },
+      "matches": 0,
+      "visible": false,
+      "enabled": false
+    },
+    {
+      "target": {
+        "strategy": "role",
+        "name": "Savings account",
+        "role": "button",
+        "frame": "Core banking"
+      },
+      "matches": 0,
+      "visible": false,
+      "enabled": false
+    },
+    {
+      "target": {
+        "strategy": "role",
+        "name": "Dismiss notice",
+        "role": "button",
+        "frame": "Core banking"
+      },
+      "matches": 0,
+      "visible": false,
+      "enabled": false
+    },
+    {
+      "target": {
+        "strategy": "label",
+        "name": "Available balance",
+        "role": null,
+        "frame": "Core banking"
+      },
+      "matches": 0,
+      "visible": false,
+      "enabled": false
+    },
+    {
+      "target": {
+        "strategy": "text",
+        "name": "Balance verified",
+        "role": null,
+        "frame": "Core banking"
+      },
+      "matches": 0,
+      "visible": false,
+      "enabled": false
+    },
+    {
+      "target": {
+        "strategy": "role",
+        "name": "Close account",
+        "role": "button",
+        "frame": "Core banking"
+      },
+      "matches": 0,
+      "visible": false,
+      "enabled": false
+    },
+    {
+      "target": {
+        "strategy": "role",
+        "name": "Restore demo session",
+        "role": "button",
+        "frame": "Core banking"
+      },
+      "matches": 0,
+      "visible": false,
+      "enabled": false
+    }
+  ],
+  "conditions": [
+    "not_found"
+  ]
+}

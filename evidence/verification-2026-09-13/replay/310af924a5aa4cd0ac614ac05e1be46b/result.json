@@ -1,0 +1,8 @@
+{
+  "status": "failure",
+  "code": "permission_denied",
+  "step": 2,
+  "expected": "unique permitted control and valid checkpoint",
+  "observed": "permission_denied",
+  "run_id": "310af924a5aa4cd0ac614ac05e1be46b"
+}

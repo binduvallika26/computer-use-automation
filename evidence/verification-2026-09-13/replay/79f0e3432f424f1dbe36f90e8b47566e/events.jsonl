@@ -1,0 +1,7 @@
+{"time": "2026-09-13T15:39:02.525381+00:00", "event": "run_started", "provider": "none"}
+{"time": "2026-09-13T15:39:02.821389+00:00", "event": "action", "step": 0, "action": "fill", "control": 0}
+{"time": "2026-09-13T15:39:02.934707+00:00", "event": "action", "step": 1, "action": "click", "control": 1}
+{"time": "2026-09-13T15:39:03.018145+00:00", "event": "intervention_requested", "step": 2, "code": "app_unavailable", "owner": "automation"}
+{"time": "2026-09-13T15:39:03.110668+00:00", "event": "intervention_unavailable", "code": "requires_headed_operator"}
+{"time": "2026-09-13T15:39:03.110668+00:00", "event": "stopped", "step": 2, "code": "app_unavailable"}
+{"time": "2026-09-13T15:39:03.196557+00:00", "event": "run_finished", "status": "failure", "code": "app_unavailable"}

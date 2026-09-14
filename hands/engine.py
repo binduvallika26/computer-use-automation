@@ -31,10 +31,7 @@ class Executor:
                     self.surface.act(condition.recovery, {})
                 else:
                     # Wait for a transient loading indicator to disappear, never re-click.
-                    try:
-                        self.surface.locator(condition.target).wait_for(state="hidden", timeout=self.policy.wait_ms)
-                    except Exception:
-                        raise SurfaceError("load_timeout") from None
+                    self.surface.wait_hidden(condition.target)
                 if self.surface.visible(condition.target):
                     raise SurfaceError("recovery_exhausted")
             else:
